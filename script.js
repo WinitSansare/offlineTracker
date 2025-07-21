@@ -260,6 +260,12 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('nextPage').addEventListener('click', () => { currentPage++; renderTable(); });
     document.getElementById('darkToggle').addEventListener('click', () => { document.body.classList.toggle('dark'); });
     document.getElementById('menuToggle').addEventListener('click', toggleDrawer);
+    document.addEventListener('click', e => {
+        const drawer = document.getElementById('drawer');
+        if (drawer.classList.contains('open') && !drawer.contains(e.target) && e.target.id !== 'menuToggle') {
+            closeDrawer();
+        }
+    });
     populateBranchList();
     renderTable();
     renderBranchTable();

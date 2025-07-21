@@ -18,6 +18,7 @@
     </header>
 
     <aside id="drawer" class="drawer">
+        <button class="nav-btn close-drawer" onclick="closeDrawer()">&times;</button>
         <nav>
             <button onclick="showModal('logModal')" class="nav-btn">+ Log Entry</button>
             <button onclick="showModal('branchModal')" class="nav-btn">+ Branch</button>
@@ -158,6 +159,7 @@
     <script src="script.js"></script>
     <script>
         function showModal(id) {
+            if (typeof closeDrawer === 'function') closeDrawer();
             document.getElementById(id).style.display = 'block';
         }
         function closeModal(id) {
