@@ -12,21 +12,22 @@
 
 <body>
     <header>
+        <button id="menuToggle" class="nav-btn">&#9776;</button>
         <h1>Local Master</h1>
         <button id="darkToggle" class="nav-btn" style="float:right;">Toggle Dark Mode</button>
-
     </header>
 
-    <nav>
-        <button onclick="showModal('logModal')" class="nav-btn">+ Log Entry</button>
-        <button onclick="showModal('branchModal')" class="nav-btn">+ Branch</button>
-    </nav>
-
-    <nav class="section-nav">
-        <button onclick="switchSection('logs')" class="nav-btn">Logs</button>
-        <button onclick="switchSection('branches')" class="nav-btn">Branches</button>
-        <button onclick="switchSection('visual')" class="nav-btn">Visualizations</button>
-    </nav>
+    <aside id="drawer" class="drawer">
+        <nav>
+            <button onclick="showModal('logModal')" class="nav-btn">+ Log Entry</button>
+            <button onclick="showModal('branchModal')" class="nav-btn">+ Branch</button>
+        </nav>
+        <nav class="section-nav">
+            <button onclick="switchSection('logs')" class="nav-btn">Logs</button>
+            <button onclick="switchSection('branches')" class="nav-btn">Branches</button>
+            <button onclick="switchSection('visual')" class="nav-btn">Visualizations</button>
+        </nav>
+    </aside>
 
     <main>
         <section id="logsSection" class="card section">
