@@ -11,6 +11,11 @@ async function populateBranchList() {
     datalist.innerHTML = branches.map(b => `<option value="${b.name}">`).join("");
 }
 
+const filters = { status: "", channel: "", branch: "" };
+let currentPage = 1;
+const itemsPerPage = 10;
+let statusChart, branchChart;
+
 function toggleSurveyRating() {
     const show = this.value === "Yes";
     document.getElementById("surveyRating").style.display = show ? "block" : "none";
@@ -20,13 +25,25 @@ function toggleSurveyRating() {
 async function renderTable() {
     const logs = await db.logs.toArray();
     const output = document.getElementById("output");
+
+    let filtered = logs.filter(l => {
+        return (!filters.status || l.status === filters.status) &&
+               (!filters.channel || l.channelOfRequest === filters.channel) &&
+               (!filters.branch || l.branchName.toLowerCase().includes(filters.branch.toLowerCase()));
+    });
+
+    const totalPages = Math.max(1, Math.ceil(filtered.length / itemsPerPage));
+    if (currentPage > totalPages) currentPage = totalPages;
+    const start = (currentPage - 1) * itemsPerPage;
+    const pageLogs = filtered.slice(start, start + itemsPerPage);
+
     let html = "<table border='1'><tr><th>#</th><th>Branch</th><th>Request</th><th>Delivery</th><th>Material</th><th>Channel</th><th>Status</th><th>Survey</th><th>Cost</th><th>Rating</th><th>Actions</th></tr>";
-    if (logs.length === 0) {
+    if (pageLogs.length === 0) {
         html += "<tr><td colspan='11'>No records</td></tr>";
     } else {
-        logs.forEach((l, i) => {
+        pageLogs.forEach((l, i) => {
             html += `<tr>
-                <td>${i + 1}</td>
+                <td>${start + i + 1}</td>
                 <td>${l.branchName}</td>
                 <td>${l.dateOfRequest}</td>
                 <td>${l.dateOfDelivery}</td>
@@ -44,6 +61,12 @@ async function renderTable() {
     }
     html += "</table>";
     output.innerHTML = html;
+
+    document.getElementById("pageInfo").textContent = `${currentPage} / ${totalPages}`;
+    document.getElementById("prevPage").disabled = currentPage === 1;
+    document.getElementById("nextPage").disabled = currentPage === totalPages;
+
+    renderCharts(filtered);
 }
 
 async function renderBranchTable() {
@@ -165,8 +188,59 @@ function importLogsFromExcel(event) {
     reader.readAsArrayBuffer(file);
 }
 
+function exportLogsToPDF() {
+    const table = document.querySelector('#output table');
+    if (!table) return;
+    html2canvas(table).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jspdf.jsPDF('l', 'pt', 'a4');
+        const width = pdf.internal.pageSize.getWidth();
+        const height = (canvas.height * width) / canvas.width;
+        pdf.addImage(imgData, 'PNG', 10, 10, width - 20, height);
+        pdf.save('OfflineLogs.pdf');
+    });
+}
+
+function renderCharts(logs) {
+    const statusCounts = {};
+    const branchCounts = {};
+    logs.forEach(l => {
+        statusCounts[l.status] = (statusCounts[l.status] || 0) + 1;
+        branchCounts[l.branchName] = (branchCounts[l.branchName] || 0) + 1;
+    });
+
+    const statusCtx = document.getElementById('statusChart').getContext('2d');
+    const branchCtx = document.getElementById('branchChart').getContext('2d');
+
+    if (statusChart) statusChart.destroy();
+    if (branchChart) branchChart.destroy();
+
+    statusChart = new Chart(statusCtx, {
+        type: 'pie',
+        data: {
+            labels: Object.keys(statusCounts),
+            datasets: [{ data: Object.values(statusCounts), backgroundColor: ['#4a90e2', '#e94e77', '#7ed321', '#f8e71c', '#50e3c2'] }]
+        }
+    });
+
+    branchChart = new Chart(branchCtx, {
+        type: 'bar',
+        data: {
+            labels: Object.keys(branchCounts),
+            datasets: [{ label: 'Logs', data: Object.values(branchCounts), backgroundColor: '#4a90e2' }]
+        },
+        options: { scales: { y: { beginAtZero: true } } }
+    });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("surveyCompleted").addEventListener("change", toggleSurveyRating);
+    document.getElementById('filterStatus').addEventListener('change', e => { filters.status = e.target.value; currentPage = 1; renderTable(); });
+    document.getElementById('filterChannel').addEventListener('change', e => { filters.channel = e.target.value; currentPage = 1; renderTable(); });
+    document.getElementById('filterBranch').addEventListener('input', e => { filters.branch = e.target.value; currentPage = 1; renderTable(); });
+    document.getElementById('prevPage').addEventListener('click', () => { if (currentPage > 1) { currentPage--; renderTable(); } });
+    document.getElementById('nextPage').addEventListener('click', () => { currentPage++; renderTable(); });
+    document.getElementById('darkToggle').addEventListener('click', () => { document.body.classList.toggle('dark'); });
     populateBranchList();
     renderTable();
     renderBranchTable();

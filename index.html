@@ -13,6 +13,7 @@
 <body>
     <header>
         <h1>Offline Log Tracker</h1>
+        <button id="darkToggle" class="nav-btn" style="float:right;">Toggle Dark Mode</button>
     </header>
 
     <nav>
@@ -25,9 +26,36 @@
             <h2>Log Records</h2>
             <div class="excel-buttons">
                 <button onclick="exportLogsToExcel()" class="secondary-btn">Download Logs (Excel)</button>
+                <button onclick="exportLogsToPDF()" class="secondary-btn">Download Logs (PDF)</button>
                 <input type="file" id="excelUpload" accept=".xlsx, .xls" onchange="importLogsFromExcel(event)" />
             </div>
+            <div class="filters">
+                <input id="filterBranch" placeholder="Filter by branch" />
+                <select id="filterStatus">
+                    <option value="">All Statuses</option>
+                    <option value="Paused">Paused</option>
+                    <option value="In-Progress">In Progress</option>
+                    <option value="Cancelled">Cancelled</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Hold">Hold</option>
+                </select>
+                <select id="filterChannel">
+                    <option value="">All Channels</option>
+                    <option value="Direct Email - (Personal Inbox)">Direct Email - (Personal Inbox)</option>
+                    <option value="Direct Email (LM- Inbox)">Direct Email (LM- Inbox)</option>
+                    <option value="Comms Portal">Comms Portal</option>
+                </select>
+            </div>
             <div id="output"></div>
+            <div class="pagination">
+                <button id="prevPage" class="secondary-btn">Prev</button>
+                <span id="pageInfo"></span>
+                <button id="nextPage" class="secondary-btn">Next</button>
+            </div>
+            <div class="charts">
+                <canvas id="statusChart" height="200"></canvas>
+                <canvas id="branchChart" height="200"></canvas>
+            </div>
         </section>
 
         <section class="card">
@@ -112,6 +140,9 @@
     </footer>
 
     <script src="https://unpkg.com/dexie@latest/dist/dexie.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="script.js"></script>
     <script>
         function showModal(id) {

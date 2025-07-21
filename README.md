@@ -8,6 +8,10 @@ This is a simple offline web application for tracking log entries and branch rec
 - Add, edit and delete branches
 - Export logs to an Excel file
 - Import logs from an Excel file
+- Filter logs and paginate results
+- Visual charts for status distribution and logs per branch
+- Optional dark mode toggle
+- Export logs table to PDF
 
 ## Usage
 

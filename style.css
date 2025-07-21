@@ -78,6 +78,34 @@ form input, form select {
 .secondary-btn:hover {
     background-color: #ddd;
 }
+
+.filters {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.charts {
+    margin-top: 20px;
+}
+
+body.dark {
+    background: #222;
+    color: #eee;
+}
+body.dark header { background-color: #333; }
+body.dark .card { background: #333; color: #eee; }
+body.dark table th { background-color: #444; }
+body.dark table, body.dark th, body.dark td { border-color: #555; }
+body.dark footer { background: #333; color: #eee; }
 table {
     width: 100%;
     border-collapse: collapse;
