@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Offline Log Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>Offline Log Tracker</h1>
+    </header>
+
+    <nav>
+        <button onclick="showModal('logModal')" class="nav-btn">+ Log Entry</button>
+        <button onclick="showModal('branchModal')" class="nav-btn">+ Branch</button>
+    </nav>
+
+    <main>
+        <section class="card">
+            <h2>Log Records</h2>
+            <div class="excel-buttons">
+                <button onclick="exportLogsToExcel()" class="secondary-btn">Download Logs (Excel)</button>
+                <input type="file" id="excelUpload" accept=".xlsx, .xls" onchange="importLogsFromExcel(event)" />
+            </div>
+            <div id="output"></div>
+        </section>
+
+        <section class="card">
+            <h2>Branch Records</h2>
+            <div id="branchOutput"></div>
+        </section>
+    </main>
+
+    <!-- Log Modal -->
+    <div id="logModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('logModal')">&times;</span>
+            <h3>Log Form</h3>
+            <form id="logForm">
+                <label>Branch Name</label>
+                <input name="branchName" id="branchName" list="branchList" placeholder="Branch Name" required />
+                <datalist id="branchList"></datalist>
+
+                <label>Date of Request</label>
+                <input name="dateOfRequest" type="date" required />
+
+                <label>Date of Delivery</label>
+                <input name="dateOfDelivery" type="date" required />
+
+                <label>Material Created</label>
+                <input name="materialCreated" placeholder="Material" required />
+
+                <label>Channel of Request</label>
+                <select name="channelOfRequest">
+                    <option value="Direct Email - (Personal Inbox)">Direct Email - (Personal Inbox)</option>
+                    <option value="Direct Email (LM- Inbox)">Direct Email (LM- Inbox)</option>
+                    <option value="Comms Portal">Comms Portal</option>
+                </select>
+
+                <label>Status</label>
+                <select name="status">
+                    <option value="Paused">Paused</option>
+                    <option value="In-Progress">In Progress</option>
+                    <option value="Cancelled">Cancelled</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Hold">Hold</option>
+                </select>
+
+                <label>Survey Completed</label>
+                <select name="surveyCompleted" id="surveyCompleted">
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+
+                <label id="ratingLabel" style="display:none">Rating (1-10)</label>
+                <input name="surveyRating" id="surveyRating" type="number" min="1" max="10" style="display:none" />
+
+                <label>Cost (£)</label>
+                <input name="cost" type="number" placeholder="Cost" />
+
+                <button type="submit" class="primary-btn">Save</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Branch Modal -->
+    <div id="branchModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('branchModal')">&times;</span>
+            <h3>Branch Form</h3>
+            <form id="branchForm">
+                <label>Code</label>
+                <input name="code" pattern="\d{1,6}" title="Digits only, up to 6 characters" required />
+                <label>Name</label>
+                <input name="name" required />
+                <label>Regional Manager</label>
+                <input name="regionalManager" />
+                <label>Area Manager</label>
+                <input name="areaManager" />
+                <button type="submit" class="primary-btn">Save Branch</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        App designed and developed by Jim
+    </footer>
+
+    <script src="https://unpkg.com/dexie@latest/dist/dexie.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        function showModal(id) {
+            document.getElementById(id).style.display = 'block';
+        }
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
