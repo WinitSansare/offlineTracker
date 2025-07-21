@@ -72,7 +72,7 @@ async function renderTable() {
     document.getElementById("prevPage").disabled = currentPage === 1;
     document.getElementById("nextPage").disabled = currentPage === totalPages;
 
-    renderCharts(filtered);
+    renderCharts();
 }
 
 async function renderBranchTable() {
@@ -207,7 +207,8 @@ function exportLogsToPDF() {
     });
 }
 
-function renderCharts(logs) {
+async function renderCharts() {
+    const logs = await db.logs.toArray();
     const statusCounts = {};
     const branchCounts = {};
     logs.forEach(l => {

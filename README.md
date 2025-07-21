@@ -10,6 +10,7 @@ This is a simple offline web application for tracking log entries and branch rec
 - Import logs from an Excel file
 - Filter logs and paginate results
 - Visual charts for status distribution and logs per branch
+- Charts always visualize the full data stored in Dexie
 - Optional dark mode toggle
 - Export logs table to PDF
 - Navigation tabs for logs, branches and visualizations
