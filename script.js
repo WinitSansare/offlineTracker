@@ -241,6 +241,18 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('prevPage').addEventListener('click', () => { if (currentPage > 1) { currentPage--; renderTable(); } });
     document.getElementById('nextPage').addEventListener('click', () => { currentPage++; renderTable(); });
     document.getElementById('darkToggle').addEventListener('click', () => { document.body.classList.toggle('dark'); });
+    document.getElementById('navToggle').addEventListener('click', () => {
+        document.querySelector('nav').classList.toggle('collapsed');
+    });
+
+    if (window.innerWidth >= 600) {
+        document.querySelector('nav').classList.remove('collapsed');
+    }
+    window.addEventListener('resize', () => {
+        if (window.innerWidth >= 600) {
+            document.querySelector('nav').classList.remove('collapsed');
+        }
+    });
     populateBranchList();
     renderTable();
     renderBranchTable();

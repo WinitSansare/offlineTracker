@@ -1,4 +1,4 @@
-# Offline Log Tracker
+# Local Master
 
 This is a simple offline web application for tracking log entries and branch records. It uses [Dexie.js](https://dexie.org/) for client-side storage and allows you to manage data without a server.
 

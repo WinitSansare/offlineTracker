@@ -21,6 +21,21 @@ nav {
     gap: 10px;
     margin: 15px 0;
 }
+nav.collapsed {
+    display: none;
+}
+#navToggle {
+    display: block;
+}
+
+@media (min-width: 600px) {
+    nav.collapsed {
+        display: flex;
+    }
+    #navToggle {
+        display: none;
+    }
+}
 .nav-btn {
     padding: 8px 16px;
     background-color: #fff;
