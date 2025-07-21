@@ -18,6 +18,12 @@ nav {
     gap: 15px;
     margin: 20px 0;
 }
+.section-nav {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
 .nav-btn {
     padding: 10px 20px;
     background-color: #fff;
@@ -96,6 +102,8 @@ form input, form select {
 .charts {
     margin-top: 20px;
 }
+
+.section { display: none; }
 
 body.dark {
     background: #222;

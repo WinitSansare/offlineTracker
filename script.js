@@ -16,6 +16,12 @@ let currentPage = 1;
 const itemsPerPage = 10;
 let statusChart, branchChart;
 
+function switchSection(name) {
+    document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+    const el = document.getElementById(name + 'Section');
+    if (el) el.style.display = 'block';
+}
+
 function toggleSurveyRating() {
     const show = this.value === "Yes";
     document.getElementById("surveyRating").style.display = show ? "block" : "none";
@@ -244,4 +250,5 @@ document.addEventListener("DOMContentLoaded", () => {
     populateBranchList();
     renderTable();
     renderBranchTable();
+    switchSection('logs');
 });

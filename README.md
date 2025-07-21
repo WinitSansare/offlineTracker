@@ -12,6 +12,7 @@ This is a simple offline web application for tracking log entries and branch rec
 - Visual charts for status distribution and logs per branch
 - Optional dark mode toggle
 - Export logs table to PDF
+- Navigation tabs for logs, branches and visualizations
 
 ## Usage
 
