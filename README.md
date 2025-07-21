@@ -15,6 +15,7 @@ This is a simple offline web application for tracking log entries and branch rec
 - Export logs table to PDF
 - Navigation tabs for logs, branches and visualizations
 
+
 ## Usage
 
 Open `index.html` in your web browser. The data is stored locally in your browser using IndexedDB via Dexie. No additional setup is required.
