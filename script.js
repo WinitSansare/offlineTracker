@@ -16,6 +16,12 @@ let currentPage = 1;
 const itemsPerPage = 10;
 let statusChart, branchChart;
 
+
+function switchSection(name) {
+    document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+    const el = document.getElementById(name + 'Section');
+    if (el) el.style.display = 'block';
+}
 function toggleSurveyRating() {
     const show = this.value === "Yes";
     document.getElementById("surveyRating").style.display = show ? "block" : "none";
@@ -66,7 +72,7 @@ async function renderTable() {
     document.getElementById("prevPage").disabled = currentPage === 1;
     document.getElementById("nextPage").disabled = currentPage === totalPages;
 
-    renderCharts(filtered);
+    renderCharts();
 }
 
 async function renderBranchTable() {
@@ -201,7 +207,10 @@ function exportLogsToPDF() {
     });
 }
 
-function renderCharts(logs) {
+
+async function renderCharts() {
+    const logs = await db.logs.toArray();
+
     const statusCounts = {};
     const branchCounts = {};
     logs.forEach(l => {
@@ -244,4 +253,5 @@ document.addEventListener("DOMContentLoaded", () => {
     populateBranchList();
     renderTable();
     renderBranchTable();
+    switchSection('logs');
 });

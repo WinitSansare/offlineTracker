@@ -13,7 +13,8 @@
 <body>
     <header>
         <h1>Offline Log Tracker</h1>
-        <button id="darkToggle" class="nav-btn">Toggle Dark Mode</button>
+        <button id="darkToggle" class="nav-btn" style="float:right;">Toggle Dark Mode</button>
+
     </header>
 
     <nav>
@@ -21,8 +22,14 @@
         <button onclick="showModal('branchModal')" class="nav-btn">+ Branch</button>
     </nav>
 
+    <nav class="section-nav">
+        <button onclick="switchSection('logs')" class="nav-btn">Logs</button>
+        <button onclick="switchSection('branches')" class="nav-btn">Branches</button>
+        <button onclick="switchSection('visual')" class="nav-btn">Visualizations</button>
+    </nav>
+
     <main>
-        <section class="card">
+        <section id="logsSection" class="card section">
             <h2>Log Records</h2>
             <div class="excel-buttons">
                 <button onclick="exportLogsToExcel()" class="secondary-btn">Download Logs (Excel)</button>
@@ -52,13 +59,17 @@
                 <span id="pageInfo"></span>
                 <button id="nextPage" class="secondary-btn">Next</button>
             </div>
+        </section>
+        <section id="visualSection" class="card section">
+            <h2>Visualizations</h2>
+
             <div class="charts">
                 <canvas id="statusChart" height="200"></canvas>
                 <canvas id="branchChart" height="200"></canvas>
             </div>
         </section>
 
-        <section class="card">
+        <section id="branchesSection" class="card section">
             <h2>Branch Records</h2>
             <div id="branchOutput"></div>
         </section>
