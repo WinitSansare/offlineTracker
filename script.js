@@ -1,5 +1,5 @@
 
-const db = new Dexie("OfflineAppDB");
+const db = new Dexie("LocalMasterDB");
 db.version(2).stores({
     logs: "++id, branchName, dateOfRequest, dateOfDelivery, materialCreated, channelOfRequest, status, surveyCompleted, cost, surveyRating",
     branches: "code, name, regionalManager, areaManager"
@@ -168,7 +168,7 @@ function exportLogsToExcel() {
         const worksheet = XLSX.utils.json_to_sheet(logs);
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "Logs");
-        XLSX.writeFile(workbook, "OfflineLogs.xlsx");
+        XLSX.writeFile(workbook, "LocalMasterLogs.xlsx");
     });
 }
 
@@ -203,7 +203,7 @@ function exportLogsToPDF() {
         const width = pdf.internal.pageSize.getWidth();
         const height = (canvas.height * width) / canvas.width;
         pdf.addImage(imgData, 'PNG', 10, 10, width - 20, height);
-        pdf.save('OfflineLogs.pdf');
+        pdf.save('LocalMasterLogs.pdf');
     });
 }
 
