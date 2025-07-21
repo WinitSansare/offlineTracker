@@ -16,11 +16,20 @@ let currentPage = 1;
 const itemsPerPage = 10;
 let statusChart, branchChart;
 
+function toggleDrawer() {
+    document.getElementById('drawer').classList.toggle('open');
+}
+
+function closeDrawer() {
+    document.getElementById('drawer').classList.remove('open');
+}
+
 
 function switchSection(name) {
     document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
     const el = document.getElementById(name + 'Section');
     if (el) el.style.display = 'block';
+    closeDrawer();
 }
 function toggleSurveyRating() {
     const show = this.value === "Yes";
@@ -250,6 +259,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('prevPage').addEventListener('click', () => { if (currentPage > 1) { currentPage--; renderTable(); } });
     document.getElementById('nextPage').addEventListener('click', () => { currentPage++; renderTable(); });
     document.getElementById('darkToggle').addEventListener('click', () => { document.body.classList.toggle('dark'); });
+    document.getElementById('menuToggle').addEventListener('click', toggleDrawer);
     populateBranchList();
     renderTable();
     renderBranchTable();
